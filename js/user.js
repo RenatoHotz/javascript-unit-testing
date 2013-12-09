@@ -11,7 +11,7 @@ var DEMO = DEMO || {};
      */
     function User() {
         this._name = 'Anonymous';
-        this._stationIds = [1, 2, 5, 77];
+        this._stationIds = [];
     }
 
     /**
@@ -32,7 +32,7 @@ var DEMO = DEMO || {};
 
     /**
      * set the users stationIds
-     * @param {Array} stationIds
+     * @param {array} stationIds
      */
     User.prototype.setStationIds = function(stationIds) {
         this._stationIds = stationIds;
@@ -40,7 +40,7 @@ var DEMO = DEMO || {};
 
     /**
      * get the users stationIds
-     * @returns {Array}
+     * @returns {array}
      */
     User.prototype.getStationIds = function() {
         return this._stationIds;
