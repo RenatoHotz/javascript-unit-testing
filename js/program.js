@@ -12,11 +12,12 @@ var DEMO = DEMO || {};
      * @constructor
      */
     function Program(user) {
-        if (!user || !user instanceof DEMO.User) {
+        if (!user || !(user instanceof DEMO.User)) {
             throw new Error("Program constructor error: Program has a dependency on DEMO.User!");
         }
 
         this._user = user;
+        this._data = {};
     }
 
     /**
@@ -24,7 +25,8 @@ var DEMO = DEMO || {};
      * @param {int} stationId
      */
     Program.prototype.load = function(stationId) {
-        var id = parseInt(stationId, 10);
+        var id = parseInt(stationId, 10),
+            that = this;
 
         if (this._user.getStationIds().indexOf(id) === -1) {
             throw new Error("Program.load error: stationId not in users stations!", 403);
@@ -33,12 +35,21 @@ var DEMO = DEMO || {};
         $.ajax({
             type: "GET",
             url: "/api/program.json",
-            context: this,
             success: function(data) {
-                this._onLoadSuccess(data);
+                that._onLoadSuccess(data);
             },
-            error: this._onLoadError()
+            error: function() {
+                that._onLoadError();
+            }
         });
+    };
+
+    /**
+     * get loaded data
+     * @returns {}
+     */
+    Program.prototype.getData = function() {
+        return this._data;
     };
 
     /**
@@ -47,7 +58,9 @@ var DEMO = DEMO || {};
      * @private
      */
     Program.prototype._onLoadSuccess = function(data) {
-        $('body').html(data);
+        if (data.statusCode === 201 && data.success === true) {
+            this._data = data.details;
+        }
     };
 
     /**
