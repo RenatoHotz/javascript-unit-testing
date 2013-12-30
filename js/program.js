@@ -46,20 +46,25 @@ var DEMO = DEMO || {};
 
     /**
      * get loaded data
-     * @returns {}
+     * @returns {Object}
      */
     Program.prototype.getData = function() {
         return this._data;
     };
 
     /**
-     * called on load success
-     * @param {string} data
+     * called on load success.
+     * set loaded data and put it to the dom after 3 secs.
+     * @param {String} data
      * @private
      */
     Program.prototype._onLoadSuccess = function(data) {
         if (data.statusCode === 201 && data.success === true) {
             this._data = data.details;
+
+            setTimeout(function() {
+                $('h1').html(data.details.stationName);
+            }, 3000);
         }
     };
 

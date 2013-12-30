@@ -1,18 +1,10 @@
+/* jshint strict: false */
+/* global $, DEMO, sinon */
+
 TestCase("programTest", {
     setUp: function() {},
 
     tearDown: function() {},
-
-    getAjaxReponseMock: function() {
-        return {
-            "success": true,
-            "statusCode": 201,
-            "details": {
-                stationId: 1,
-                stationName: "SRF1"
-            }
-        };
-    },
 
     "test should throw an error when no user-object is passed to the constructor":
         function() {
@@ -62,23 +54,36 @@ TestCase("programTest", {
             );
         },
 
-    "test should load data":
+    "test should load data and update html":
         function() {
-            expectAsserts(2);
+            /*:DOC += <section><h1></h1></section> */
 
-            var program,
-                user = new DEMO.User(),
-                ajaxResponse = this.getAjaxReponseMock(),
-                stub = sinon.stub($, "ajax")
-                            .yieldsTo("success", ajaxResponse);
+            expectAsserts(3);
 
-            user.setStationIds([1, 2, 3]);
-            program = new DEMO.Program(user);
+            var user = new DEMO.User().setStationIds([1, 2, 3]),
+                program = new DEMO.Program(user),
+                clock = sinon.useFakeTimers();
+
+            sinon.stub($, "ajax")
+                 .yieldsTo("success",
+                     {
+                         "success": true,
+                         "statusCode": 201,
+                         "details": {
+                             stationId: 1,
+                             stationName: "SRF1"
+                         }
+                     }
+                 );
+
             program.load(1);
 
             assertEquals('SRF1', program.getData().stationName);
             assertEquals(1, program.getData().stationId);
+            clock.tick(3000);
+            assertEquals('SRF1', $('h1').html());
 
             $.ajax.restore();
+            clock.restore();
         }
 });

@@ -16,15 +16,18 @@ var DEMO = DEMO || {};
 
     /**
      * set the users name
-     * @param {string} name
+     * @param {String} name
+     * @returns {User}
      */
     User.prototype.setName = function(name) {
         this._name = name;
+
+        return this;
     };
 
     /**
      * get the users name
-     * @returns {string}
+     * @returns {String}
      */
     User.prototype.getName = function() {
         return this._name;
@@ -32,15 +35,18 @@ var DEMO = DEMO || {};
 
     /**
      * set the users stationIds
-     * @param {array} stationIds
+     * @param {Array} stationIds
+     * @returns {User}
      */
     User.prototype.setStationIds = function(stationIds) {
         this._stationIds = stationIds;
+
+        return this;
     };
 
     /**
      * get the users stationIds
-     * @returns {array}
+     * @returns {Array}
      */
     User.prototype.getStationIds = function() {
         return this._stationIds;

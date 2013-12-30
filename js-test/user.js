@@ -1,3 +1,6 @@
+/* jshint strict: false */
+/* global DEMO */
+
 TestCase("userTest", {
     setUp: function() {},
 
