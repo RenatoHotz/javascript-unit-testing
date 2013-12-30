@@ -31,13 +31,11 @@ TestCase("programTest", {
 
     "test should create a DEMO.Program instance when correct User is passed to the constructor":
         function() {
-            var program,
-                user = new DEMO.User();
+            var user = new DEMO.User(),
+                program = new DEMO.Program(user);
 
-            assertInstanceOf(
-                DEMO.Program,
-                program = new DEMO.Program(user)
-            );
+            assertInstanceOf(DEMO.Program, program);
+            assertEquals({}, program.getData());
         },
 
     "test should throw an error when wrong stationId is passed to the load function":
@@ -52,6 +50,23 @@ TestCase("programTest", {
                     program.load(4);
                 }
             );
+        },
+
+    "test should throw error on load error":
+        function() {
+            var user = new DEMO.User().setStationIds([1, 2, 3]),
+                program = new DEMO.Program(user);
+
+            sinon.stub($, "ajax")
+                 .yieldsTo("error");
+
+            assertException(
+                function() {
+                    program.load(1);
+                }
+            );
+
+            $.ajax.restore();
         },
 
     "test should load data and update html":

@@ -21,7 +21,7 @@ var DEMO = DEMO || {};
     }
 
     /**
-     * load data
+     * load program-data about a station
      * @param {int} stationId
      */
     Program.prototype.load = function(stationId) {
@@ -69,7 +69,7 @@ var DEMO = DEMO || {};
     };
 
     /**
-     * called on load error
+     * invoked on load error
      * @private
      */
     Program.prototype._onLoadError = function() {
