@@ -52,7 +52,7 @@ TestCase("programTest", {
             );
         },
 
-    "test should throw error on load error":
+    "test should throw an error on load error":
         function() {
             var user = new DEMO.User().setStationIds([1, 2, 3]),
                 program = new DEMO.Program(user);
